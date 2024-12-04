@@ -1,0 +1,18 @@
+#buttons{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100vh;
+    
+}
+#buttons div{
+
+    border-radius: 10px;
+    font-size: 40px;
+    color: aliceblue;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#buttons div:hover{
+    color:rgb(56, 255, 99)
+}

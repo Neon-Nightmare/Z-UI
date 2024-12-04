@@ -1,0 +1,26 @@
+#container{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100vh;
+    
+}
+
+#container div{
+    font-size: 40px;
+    color: aliceblue;
+    font-family: 'Courier New', Courier, monospace;
+    justify-items: center;
+    
+}
+
+#sign{
+    padding: 20px;
+    border: solid 4px rgb(216, 57, 57);
+    background-color: rgb(216, 57, 57);
+    border-radius: 10px;
+}
+
+#warning{
+    font-size: 20px;
+}
