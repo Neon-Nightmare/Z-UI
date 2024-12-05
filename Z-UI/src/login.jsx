@@ -1,12 +1,23 @@
 import './styling/login.css'
-
-import { Link } from "react-router-dom";
-import React, { useState } from "react";
+import { Link, useNavigate, redirect } from "react-router-dom";
+import React, { useState, useContext, useEffect } from "react";
+import { DetailsContext } from './App';
 
 export default function Login(){
-    const [warning, setWarning] = useState("");
-    const [username, setUsername] = useState("");
-    const[red, setRed] = useState('')
+
+    const {details, setDetails} = useContext(DetailsContext)
+
+    useEffect(() => {
+        localStorage.setItem('details', JSON.stringify(details));
+      }, [details]);
+
+    const [warningSign, setWarningSign] = useState("");
+    const [warningLogin, setWarningLogin] = useState("");
+    
+    const[signContainer, setSign] = useState('')
+    const[loginContainer, setLogin] = useState('')
+
+    const navigate = useNavigate();
 
     function sign(x){
         x.preventDefault();
@@ -19,7 +30,7 @@ export default function Login(){
 
         const y = Object.assign(formJson)
 
-        console.log(y.name)
+        setDetails(y)
 
         fetch('http://localhost:3000/music?table=artists',{
             method: 'GET',
@@ -30,25 +41,29 @@ export default function Login(){
             return data.json()
         }).then((x) => {
 
-            if(x.filter(x => x.name = y.name) == false){
-                fetch(`http://localhost:3000/addItem?name=${y.name}&email=${y.email}&password=${y.password}`, {
+            if(x.filter(x => x.name == y.name) == false){
+                fetch(`http://localhost:3000/addItem?name=${y.name}&email=${y.email}&password=${y.password}`, 
+                {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
                     body: new URLSearchParams({
-                        'table': 'artists',
+                        'table': 'artists'
                     }),
                     redirect: "follow"
                 
                 }).then((data) => {
-                    console.log(data)
+                    return data.json()
+                }).then((x) => {
+                    setDetails(x)
+                    return navigate("/profile");
                 })
-                setUsername(y.name)
+                
             } else {
                 console.log('This username is already in use')
-                setRed('sign')
-                setWarning('This username is already in use!')
+                setSign('sign')
+                setWarningSign('This username is already in use!')
             }
         })
       
@@ -64,6 +79,8 @@ export default function Login(){
 
         const y = Object.assign(formJson)
 
+        
+
         fetch('http://localhost:3000/login', {
             method: 'POST',
             headers: {
@@ -76,24 +93,36 @@ export default function Login(){
             })
         }).then((data) => {
             return data.json()
-        }).then((x) => console.log(x[0].name))
+        }).then((x) => {
+            if(x[0]){
+                setDetails(x)
+                setLogin()
+                setWarningLogin()
+                return navigate('/profile');
+            } else {
+                setLogin('sign')
+                setWarningLogin('Submitted information is incorrect')
+            }
+        })
     }
     return(
         <>
+
         <div id='container'>
-            <div id={red}>
+            <div id={signContainer}>
                 <p>Sign-up</p>
                 <form onSubmit={sign}>
-                    <p id='warning'>{warning}</p>
+                    <p id='warning'>{warningSign}</p>
                     <input type='text' name='name' placeholder='USERNAME'/><br></br>
                     <input type='text' name='email' placeholder='EMAIL'/><br></br>
                     <input type='text' name='password' placeholder='PASSWORD'/><br></br>
                     <button type="submit">Submit</button>
                 </form>
             </div>
-            <div>
+            <div id={loginContainer}>
                 <p>Login</p>
                 <form onSubmit={login}>
+                    <p id='warning'>{warningLogin}</p>
                     <input type='text' name='name' placeholder='USERNAME'/><br></br>
                     <input type='text' name='email' placeholder='EMAIL'/><br></br>
                     <input type='text' name='password' placeholder='PASSWORD'/><br></br>

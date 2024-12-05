@@ -1,0 +1,41 @@
+#text{
+    font-size: 30px;
+    color: aliceblue;
+    font-family: 'Courier New', Courier, monospace;
+    justify-items: center;
+    text-align: center;
+}
+
+#card{
+    display: flex;
+    /* border: solid 4px red; */
+    width: 300px;
+    height: 450px;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    flex-wrap: wrap;
+    transition: 0.5s;
+}
+
+#card:hover{
+    transform: translate(0px, -10px)
+}
+
+#container{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    /* border: solid 4px red; */
+}
+
+#title{
+    font-size: 20px;
+    color: aliceblue;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+}
+#pic{
+    height: 300px;
+    border-radius: 10px;
+}
