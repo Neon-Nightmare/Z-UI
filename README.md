@@ -1,1 +1,1 @@
-# Z-UI
+hallo, if created, updated, or deleted information does not immediately appear, please navigate back to the login page and relogin 
