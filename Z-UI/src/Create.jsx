@@ -1,17 +1,13 @@
 import { useForm } from "react-hook-form";
 
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import './styling/Create.css'
 import { DetailsContext } from "./App";
-import { SelectedInfo } from './App';
 
 export default function Create(){
-
-    const {details, setDetails} = useContext(DetailsContext)
-
-    const {info, setInfo} = useContext(SelectedInfo)
-
-    const stored = localStorage.getItem('details')
+    const navigate = useNavigate();
+    const {details, setDetails} = useContext(DetailsContext);
 
     useEffect(() => {
         localStorage.setItem('details', JSON.stringify(details));
@@ -22,7 +18,7 @@ export default function Create(){
     return(
         <>
             <div id='container'>
-                <form id='form' onSubmit={handleSubmit(async (data) => await fetch(`http://localhost:3000/addItem?album_name=${data.album_name}&artist=${details[0].name}&image=${data.image}&price=${data.price}&type=${data.type}&info=${data.info}&release=${data.release}&label=${data.label}&artists_id=${details[0].artist_id}`,
+                <form id='form' onSubmit={handleSubmit(async (data) => await fetch(`http://localhost:3000/addItem?album_name=${data.album_name}&artist=${details[0].name}&image=${data.image}&price=${data.price}&type=${data.type}&info=${data.info}&release=${data.release}&label=${data.label}&artists_id=${details[0].id}`,
                     {
                         method: "POST",
                         headers: {
@@ -33,7 +29,7 @@ export default function Create(){
                         }),
                         redirect: "follow"
                     }).then(
-                        fetch(`http://localhost:3000/select?artists_id=${details[0].artist_id}`,
+                        fetch(`http://localhost:3000/select?artists_id=${details[0].id}`,
                             {
                                 method: "POST",
                                 headers: {
@@ -46,7 +42,8 @@ export default function Create(){
                             }
                         )
                         .then((data) => data.json())
-                        .then((x) => setInfo(x))
+                        .then((x) => setDetails(x)),
+                        navigate("/profile")
                     )
                     )}>
                     <input {...register("album_name", { required: true })} placeholder="Whats the albums name!"/> 

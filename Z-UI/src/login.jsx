@@ -21,13 +21,9 @@ export default function Login(){
 
     function sign(x){
         x.preventDefault();
-
         const form = x.target;
-
         const formData = new FormData(form);
-
         const formJson = Object.fromEntries(formData.entries());
-
         const y = Object.assign(formJson)
 
         setDetails(y)
@@ -56,8 +52,22 @@ export default function Login(){
                 }).then((data) => {
                     return data.json()
                 }).then((x) => {
-                    setDetails(x)
-                    return navigate("/profile");
+                    fetch(`http://localhost:3000/select?name=${y.name}`,{
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: new URLSearchParams({
+                            'table': 'artists'
+                        }),
+                        redirect: "follow"
+                    }).then((z) => {
+                        return z.json()
+                    }).then((result) => {
+                        setDetails(result)
+                        return navigate("/profile");
+                    })
+                    
                 })
                 
             } else {
@@ -72,14 +82,9 @@ export default function Login(){
         x.preventDefault();
 
         const form = x.target;
-
         const formData = new FormData(form);
-
         const formJson = Object.fromEntries(formData.entries());
-
         const y = Object.assign(formJson)
-
-        
 
         fetch('http://localhost:3000/login', {
             method: 'POST',

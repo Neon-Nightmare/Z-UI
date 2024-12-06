@@ -20,7 +20,7 @@ export default function Profile(){
         <div>
             <p id='text'> Welcome back! {data[0].name}</p>
             <Link to='/create'>
-                <button>Add Album</button>
+                <button id='addbutton'>Add Album</button>
             </Link>
         </div>
         <div id='container'>
