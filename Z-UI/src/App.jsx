@@ -23,7 +23,7 @@ function App() {
     <DetailsContext.Provider value={value}>
       <SelectedInfo.Provider value={information}>
       <Routes>
-        <Route path='/home' element={<Homepage/>}/>
+        <Route path='/' element={<Homepage/>}/>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/info' element={<Info/>}/>
         <Route path='/browse' element={<Browse/>}/>
